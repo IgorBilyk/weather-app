@@ -1,38 +1,109 @@
-.App {
-  text-align: center;
+
+:root{
+  --hot-font-color: #d36326;
+  --hot-background-color: #f3f5d2;
+  --cold-font-color: #44c3de;
+  --cold-background-color: #eff3f9;
+
+}
+*{
+  font-family: Arial, Helvetica, sans-serif;
+}
+.container {
+  max-width: 1080px;
+  margin:2.8rem auto;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.box{
+  position: relative;
+  max-width: 20%;
+  max-height: 25vh;
+  margin: 1rem auto;
+  background-color: aliceblue;
+  padding: 5rem 3rem;
+  border-radius: 5rem;
+  -webkit-border-radius: 5rem;
+  -moz-border-radius: 5rem;
+  -ms-border-radius: 5rem;
+  -o-border-radius: 5rem;
+  box-shadow: 0 2px 30px rgba(0,0,0, 0.2);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.hot-style{
+  color: var(--hot-font-color);
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.cold-style{
+  color: var(--cold-font-color);
 }
-
-.App-link {
-  color: #61dafb;
+.info{
+  width: 100%;
 }
-
-@keyframes App-logo-spin {
+.info .date{
+  color: silver;
+}
+.description{
+  position: absolute;
+  font-size: 2rem;
+  top: 8rem;
+  left: 18rem;
+  transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+}
+.wave {
+  opacity: 0.1;
+  position: absolute;
+  top: 5%;
+  left: 8%;
+  background: silver;
+  width: 340px;
+  height: 340px;
+  transform-origin: 50% 48%;
+  border-radius: 43%;
+  animation: drift 7000ms infinite linear;
+  z-index: 1;
+  -webkit-animation: drift 7000ms infinite linear;
+}
+.icon{
+  margin: 0 1rem;
+}
+@keyframes drift {
   from {
     transform: rotate(0deg);
   }
-  to {
+  from {
     transform: rotate(360deg);
   }
+}
+
+/*Forecast page*/
+.forecast-container{
+  display: flex;
+  justify-content: space-around;
+}
+.loop{
+  font-size: 2rem;
+  margin: 0;
+}
+@media only screen and (max-width: 800px) {
+  .forecast-container {
+flex-direction: column;  }
+.box{
+  max-width: 75%;
+  max-height: 45vh;
+}
+.info{
+  text-align: center;
+}
+.description{
+  top: 5rem;
+  left: 30rem;
+}
+.wave{
+  width: 400px;
+  height: 400px;
+  top: -5%;
+}
 }

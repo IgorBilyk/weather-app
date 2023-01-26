@@ -1,23 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import { Current_Weather } from "./components/current_weather/Current_Weather";
+import { Forecast } from "./components/forecast/Forecast";
+import { Search } from "./components/search/Search";
 
 function App() {
+  const [currentWeather, setCurrentWeather] = useState(null);
+  const [forecastWeather, setForecastWeather] = useState(null);
+  //Get weather for current location of user if he allows to see his geo
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const fetchCurrentWeather = await fetch(
+        `${process.env.REACT_APP_WEATHER_URL}weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
+      )
+        .then((response) => response.json())
+        .catch((err) => console.log(err));
+      setCurrentWeather(fetchCurrentWeather);
+    });
+  }, []);
+
+  const handleSearchChange = async (data) => {
+    const [lat, lon] = data?.value.split(" ");
+    const fetchCurrentWeather = fetch(
+      `${process.env.REACT_APP_WEATHER_URL}weather?lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
+    );
+    const fetchForecastWeather = fetch(
+      `${process.env.REACT_APP_WEATHER_URL}forecast?lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
+    );
+    Promise.all([fetchCurrentWeather, fetchForecastWeather])
+      .then(async (response) => {
+        const currentWeather = await response[0].json();
+        const forecastWeather = await response[1].json();
+        setCurrentWeather({ city: data, ...currentWeather });
+        setForecastWeather(forecastWeather);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Search onSearchChange={handleSearchChange} />
+      {currentWeather && (
+        <Current_Weather data={currentWeather} forecast="false" />
+      )}
+      {forecastWeather && <Forecast forecastWeather={forecastWeather} />}
     </div>
   );
 }
