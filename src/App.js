@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { Current_Weather } from "./components/current_weather/Current_Weather";
+import { CurrentWeather } from "./components/current_weather/CurrentWeather";
 import { Forecast } from "./components/forecast/Forecast";
 import { Search } from "./components/search/Search";
 
@@ -41,7 +41,7 @@ function App() {
     <div className="App">
       <Search onSearchChange={handleSearchChange} />
       {currentWeather && (
-        <Current_Weather data={currentWeather} forecast="false" />
+        <CurrentWeather data={currentWeather} forecast="false" />
       )}
       {forecastWeather && <Forecast forecastWeather={forecastWeather} />}
     </div>
