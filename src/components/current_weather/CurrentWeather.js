@@ -8,7 +8,7 @@ import {
   generateDate,
 } from "../../date";
 
-export const Current_Weather = ({ data, forecast, index, loop,day}) => {
+export const CurrentWeather = ({ data, forecast, index, loop,day}) => {
   const { main, city, weather, wind } = data;
   const { temp } = main;
 
